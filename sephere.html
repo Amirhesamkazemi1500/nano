@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پخش زنده</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3; /* پس‌زمینه نرم */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* ارتفاع کامل */
+        }
+
+        .taskbar {
+            background-color: #2c3e50; /* نوار وظیفه تاریک */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* سایه نوار وظیفه */
+        }
+
+        .start-button {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .start-menu {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            bottom: 50px;
+            left: 20px;
+            width: 220px;
+            display: none; /* پنهان کردن منوی استارت */
+        }
+
+        .start-menu ul {
+            list-style-type: none;
+            padding: 10px;
+            margin: 0;
+        }
+
+        .start-menu li {
+            padding: 10px 0;
+        }
+
+        .start-menu li a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .start-menu li a:hover {
+            color: #3498db; /* رنگ لینک در حالت هاور */
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            max-width: 1000px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            font-size: 20px;
+            color: #555;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #2c3e50; /* پس‌زمینه فوتر */
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        header {
+            background-color: #2c3e50; /* پس‌زمینه هدر */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* سایه هدر */
+        }
+
+        header img {
+            max-height: 70px; /* سایز لوگو */
+            vertical-align: middle;
+            display: block; /* وسط‌چین کردن */
+            margin: 0 auto; /* حاشیه خودکار برای وسط‌چین */
+        }
+
+        /* طراحی واکنش‌گرا */
+        @media (max-width: 768px) {
+            p {
+                font-size: 18px;
+            }
+        }
+    </style>
+    <script>
+        function toggleStartMenu() {
+            const startMenu = document.getElementById('start-menu');
+            startMenu.style.display = startMenu.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="taskbar">
+        <div class="start-button" onclick="toggleStartMenu()">📁</div>
+        <span>ᗩᑭᑭᑕᝪᗞᗴᖇᔑ.Ꮖᖇ</span>
+    </div>
+
+    <div class="start-menu" id="start-menu">
+        <ul>
+            <li><a href="https://appcoders.ir/Browser/DM/usersepher.php">حساب کاربری</a></li>
+            <li><a href="#">بزودی</a></li>
+            <li><a href="#">بزودی</a></li>
+            <li><a href="#">بزودی</a></li>
+        </ul>
+    </div>
+    
+    <header>
+        <img src="https://t3-cdn.eirib.ir/img/logo/logo-toolbar.png" alt="لوگوی شبکه سپهر">
+    </header>
+
+    <main>
+        <iframe src="https://sepehrtv.ir/live" frameborder="0" allowfullscreen></iframe>
+        <p>لایو سایت شبکه سپهر</p>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 شبکه سپهر. تمامی حقوق محفوظ است.</p>
+    </footer>
+</body>
+</html>
