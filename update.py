@@ -23,9 +23,8 @@ def print_header():
     print(f"{Colors.HEADER}{'=' * width}{Colors.ENDC}")
     print(f"{Colors.OKGREEN}{' ' * ((width - 30) // 2)}Git Pull Utility - Version 1.0{' ' * ((width - 30) // 2)}{Colors.ENDC}")
     print(f"{Colors.HEADER}{'=' * width}{Colors.ENDC}")
-    print(f"{Colors.OKGREEN}{' ' * ((width - 30) // 2)}-------------------------------{' ' * ((width - 30) // 2)}{Colors.ENDC}")
-    print(f"{Colors.OKGREEN}{' ' * ((width - 30) // 2)}       Your Git Assistant        {' ' * ((width - 30) // 2)}{Colors.ENDC}")
-    print(f"{Colors.OKGREEN}{' ' * ((width - 30) // 2)}-------------------------------{' ' * ((width - 30) // 2)}{Colors.ENDC}")
+    print(f"{Colors.OKGREEN}┌─[UPDATE@termux]─[~/nano]{Colors.ENDC}")
+    print(f"{Colors.OKGREEN}└──╼ ❯❯❯ Report:{Colors.ENDC}")
     print(f"{Colors.HEADER}{'=' * width}{Colors.ENDC}")
 
 def print_status(message):
@@ -34,8 +33,28 @@ def print_status(message):
 
 def print_report(report):
     """Print the report in a formatted way."""
-    print(f"\n{Colors.BOLD}{Colors.UNDERLINE}Report:{Colors.ENDC}")
-    print(f"{Colors.OKGREEN}{report}{Colors.ENDC}")
+    print(f"\n{Colors.BOLD}{Colors.UNDERLINE}Changes Detected:{Colors.ENDC}")
+    for line in report:
+        print(line)
+
+def check_git_changes():
+    """Check for changes in the git repository."""
+    changes = os.popen("git status --porcelain").readlines()
+    
+    report = []
+    
+    for change in changes:
+        if change.startswith('A '):  # Added file
+            filename = change[3:].strip()
+            report.append(f"{Colors.OKGREEN}A new file named: {filename}{Colors.ENDC}")
+        elif change.startswith('D '):  # Deleted file
+            filename = change[3:].strip()
+            report.append(f"{Colors.FAIL}The file with the name was deleted: {filename}{Colors.ENDC}")
+        elif change.startswith('M '):  # Modified file
+            filename = change[3:].strip()
+            report.append(f"{Colors.OKBLUE}The file was modified: {filename}{Colors.ENDC}")
+
+    return report
 
 def main():
     clear_screen()
@@ -50,7 +69,12 @@ def main():
     print_status("Command executed successfully.")
     
     # Display the report
-    print_report(result)
+    changes_report = check_git_changes()
+    
+    if changes_report:
+        print_report(changes_report)
+    else:
+        print(f"{Colors.OKBLUE}No changes detected.{Colors.ENDC}")
 
 if __name__ == "__main__":
     main()
