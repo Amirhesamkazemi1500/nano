@@ -1,41 +1,46 @@
-  main()
 import os
-import shutil
-import time
 
 # Define colors
 class Colors:
-    HEADER = '\033[95m'   # Magenta
-    OKBLUE = '\033[94m'   # Blue
-    OKGREEN = '\033[92m'  # Green
-    WARNING = '\033[93m'  # Yellow
-    FAIL = '\033[91m'     # Red
-    ENDC = '\033[0m'      # Reset to default
-    BOLD = '\033[1m'      # Bold text
-    UNDERLINE = '\033[4m' # Underlined text
-
-def clear_screen():
-    """Clear the console screen."""
-    os.system('cls' if os.name == 'nt' else 'clear')
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 def print_header():
-    """Print the program header with enhanced graphics."""
-    width = shutil.get_terminal_size().columns
-    title = " Git Pull Utility "
-    version = " Version 2.0 "
-    
-    # Calculate padding for centering the title and version
-    title_padding = (width - len(title) - 2) // 2
-    version_padding = (width - len(version) - 2) // 2
+    header_length = 63  # Length of the header
+    title = "GIT PULL UTILITY"
+    padding_length = (header_length - len(title)) // 2  # Calculate padding for center alignment
+    print(f"{Colors.HEADER}{'=' * header_length}{Colors.ENDC}")
+    print(f"{Colors.OKGREEN}{' ' * padding_length}{title}{' ' * padding_length}{Colors.ENDC}")
+    # If the title length is odd, add an extra space to the right
+    if len(title) % 2 != 0:
+        print(f"{Colors.OKGREEN} {' ' * (padding_length + 1)}{Colors.ENDC}")
+    print(f"{Colors.HEADER}{'=' * header_length}{Colors.ENDC}")
 
-    # Terminal prompt style header
-    print(f"{Colors.HEADER}┌─[Update@termux]─[~]{Colors.ENDC}")
-    
-    # Create a structured header with proper alignment
-    print(f"{Colors.HEADER}╔{'═' * (width - 2)}╗{Colors.ENDC}")
-    
-    # Title with a border
-    print(f"{Colors.OKGREEN}║{' ' * title_padding}{title}{' ' * title_padding}║{Colors.ENDC}")
+def print_status(message):
+    print(f"{Colors.OKBLUE}[INFO] {message}{Colors.ENDC}")
+
+def print_report(report_message):
+    print(f"{Colors.WARNING}┌─[update@termux]─[~/nano]{Colors.ENDC}")
+    print(f"{Colors.WARNING}└──╼ ❯❯❯ {report_message}{Colors.ENDC}")
+
+def main():
+    print_header()
+    print_status("Executing 'git pull origin main'...")
+
+    # Execute command
+    os.system("git pull origin main")
+
+    print_status("Command executed successfully.")
+    print_report("Report: Operation completed successfully.")
+
+if __name__ == "__main__":
+    main()}║{' ' * title_padding}{title}{' ' * title_padding}║{Colors.ENDC}")
     
     # Version with a border
     print(f"{Colors.OKGREEN}║{' ' * version_padding}{version}{' ' * version_padding}║{Colors.ENDC}")
