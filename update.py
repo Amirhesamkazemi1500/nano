@@ -1,7 +1,6 @@
 import os
 import time
 
-# Define colors
 class Colors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -22,9 +21,16 @@ def print_header():
 def print_status(message):
     print(f"{Colors.OKBLUE}[INFO] {message}{Colors.ENDC}")
 
-def print_report(report_message):
-    print(f"{Colors.WARNING}┌─[update@termux]─[~/nano]{Colors.ENDC}")
-    print(f"{Colors.WARNING}└──╼ ❯❯❯ {report_message}{Colors.ENDC}")
+def check_git_status():
+    os.system("git status")
+
+def git_pull():
+    print_status("Checking Git status...")
+    check_git_status()
+    
+    print_status("Executing 'git pull origin main'...")
+    os.system("git pull origin main")
+    print_status("Command executed successfully.")
 
 def show_help():
     help_text = """
@@ -37,23 +43,20 @@ Available Commands:
 
 def clear_and_exit():
     print_status("Clearing the terminal...")
-    os.system("clear")  # Clear the terminal
-    time.sleep(3)  # Wait for 3 seconds
+    os.system("clear")
+    time.sleep(3)
     print_status("Exiting the terminal simulator.")
-    exit()  # Exit the program
+    exit()
 
 def main():
-    os.system("clear")  # Clear the terminal at the start
+    os.system("clear")
     print_header()
     
     while True:
         command = input(f"{Colors.WARNING}Enter command (u for update, h for help, q to clear and exit): {Colors.ENDC}").strip().lower()
         
         if command == 'u':
-            print_status("Executing 'git pull origin main'...")
-            os.system("git pull origin main")
-            print_status("Command executed successfully.")
-            print_report("Report: Operation completed successfully.")
+            git_pull()
         
         elif command == 'h':
             show_help()
