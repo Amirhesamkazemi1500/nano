@@ -11,7 +11,7 @@ class Colors:
 
 def print_header():
     header_length = 63
-    title = "WELCOME TO THE TERMINAL SIMULATOR"
+    title = " WELCOME TO THE TERMINAL SIMULATOR "
     padding_length = (header_length - len(title)) // 2
     
     print(f"{Colors.HEADER}{'=' * header_length}{Colors.ENDC}")
@@ -22,15 +22,36 @@ def print_status(message):
     print(f"{Colors.OKBLUE}[INFO] {message}{Colors.ENDC}")
 
 def check_git_status():
+    print_status("Checking Git status...")
     os.system("git status")
 
 def git_pull():
-    print_status("Checking Git status...")
     check_git_status()
     
     print_status("Executing 'git pull origin main'...")
     os.system("git pull origin main")
-    print_status("Command executed successfully.")
+    
+    # Report changes
+    report_changes()
+
+def report_changes():
+    print_status("Generating report of changes...")
+    
+    # Get the list of changed files
+    changed_files = os.popen("git diff --name-status HEAD@{1} HEAD").read().strip().split("\n")
+    
+    if not changed_files or changed_files == ['']:
+        print(f"{Colors.OKGREEN}No changes detected.{Colors.ENDC}")
+        return
+
+    for change in changed_files:
+        status, file_name = change.split("\t")
+        if status == "A":
+            print(f"{Colors.OKGREEN}[ADDED] {file_name}{Colors.ENDC}")
+        elif status == "D":
+            print(f"{Colors.FAIL}[DELETED] {file_name}{Colors.ENDC}")
+        elif status == "M":
+            print(f"{Colors.WARNING}[MODIFIED] {file_name}{Colors.ENDC}")
 
 def show_help():
     help_text = """
