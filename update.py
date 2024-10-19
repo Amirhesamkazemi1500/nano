@@ -9,17 +9,14 @@ class Colors:
     WARNING = '\033[93m'
     FAIL = '\033[91m'
     ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
 
 def print_header():
-    header_length = 63  # Length of the header
+    header_length = 63
     title = "WELCOME TO THE TERMINAL SIMULATOR"
-    padding_length = (header_length - len(title)) // 2  # Calculate padding for center alignment
+    padding_length = (header_length - len(title)) // 2
     
     print(f"{Colors.HEADER}{'=' * header_length}{Colors.ENDC}")
     print(f"{Colors.OKGREEN}{' ' * padding_length}{title}{' ' * padding_length}{Colors.ENDC}")
-    
     print(f"{Colors.HEADER}{'=' * header_length}{Colors.ENDC}")
 
 def print_status(message):
@@ -34,8 +31,7 @@ def show_help():
 Available Commands:
 - u : Execute 'git pull origin main'
 - h : Show this help message
-- e : Clear the terminal and exit after a few seconds
-- q : Quit the simulator
+- q : Clear the terminal and exit after a few seconds
 """
     print(help_text)
 
@@ -47,10 +43,11 @@ def clear_and_exit():
     exit()  # Exit the program
 
 def main():
+    os.system("clear")  # Clear the terminal at the start
     print_header()
     
     while True:
-        command = input(f"{Colors.WARNING}Enter command (u for update, h for help, e to clear and exit, q to quit): {Colors.ENDC}").strip().lower()
+        command = input(f"{Colors.WARNING}Enter command (u for update, h for help, q to clear and exit): {Colors.ENDC}").strip().lower()
         
         if command == 'u':
             print_status("Executing 'git pull origin main'...")
@@ -61,12 +58,8 @@ def main():
         elif command == 'h':
             show_help()
         
-        elif command == 'e':
-            clear_and_exit()
-        
         elif command == 'q':
-            print_status("Exiting the terminal simulator. Goodbye!")
-            break
+            clear_and_exit()
         
         else:
             print(f"{Colors.FAIL}[ERROR] Invalid command! Type 'h' for help.{Colors.ENDC}")
