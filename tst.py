@@ -1,23 +1,31 @@
 import os
-import tkinter as tk
-from tkinter import scrolledtext
 
-def run_command():
-    command = command_entry.get()
-    output = os.popen(command).read()
-    output_text.delete(1.0, tk.END)
-    output_text.insert(tk.END, output)
+def print_header():
+    header = """
+\033[1;36m========================================
+           LINUX TERMINAL CONNECTOR
+========================================\033[0m
+"""
+    print(header)
 
-app = tk.Tk()
-app.title("Linux Terminal Connector")
+def main():
+    print_header()
+    print("\033[1;32mType 'exit' to quit.\033[0m")
 
-command_entry = tk.Entry(app, width=50)
-command_entry.pack(pady=10)
+    while True:
+        command = input("\033[1;34m>>> \033[0m")  # Prompt with blue color
+        if command.lower() == 'exit':
+            print("\033[1;31mExiting the terminal...\033[0m")
+            break
+        else:
+            try:
+                output = os.popen(command).read()
+                if output:
+                    print(output)
+                else:
+                    print("\033[1;33mNo output.\033[0m")  # Yellow color for no output
+            except Exception as e:
+                print(f"\033[1;31mError: {e}\033[0m")  # Red color for errors
 
-run_button = tk.Button(app, text="Run Command", command=run_command)
-run_button.pack(pady=5)
-
-output_text = scrolledtext.ScrolledText(app, width=60, height=20)
-output_text.pack(pady=10)
-
-app.mainloop()
+if __name__ == "__main__":
+    main()
