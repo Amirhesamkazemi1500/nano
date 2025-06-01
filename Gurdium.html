@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacked By GURDIUM</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #000000, #0d0d0d, #1a1a1a);
+            color: white;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 60px;
+            color: red;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+            margin-top: 20vh;
+        }
+
+        h2 {
+            font-size: 30px;
+            color: white;
+            text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #ffffff;
+        }
+
+        .glitch {
+            font-size: 20px;
+            color: limegreen;
+            text-shadow: 0 0 5px limegreen, 0 0 10px limegreen, 0 0 15px limegreen;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: gray;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: -2px -2px red, -2px -2px blue;
+                transform: translate(2px, -2px);
+            }
+            50% {
+                text-shadow: -4px -4px blue, -4px -4px red;
+                transform: translate(-4px, -4px);
+            }
+            100% {
+                text-shadow: -2px -2px red, -2px -2px blue;
+                transform: translate(2px, -2px);
+            }
+        }
+
+        .glitch-effect {
+            animation: glitch 1s infinite alternate-reverse;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="glitch-effect">💀 Hacked By GURDIUM 💀</h1>
+    <h2 class="glitch">Your Security is a Joke!</h2>
+    <p class="message">We are everywhere. We are unstoppable.<br>Strengthen your security before it's too late.</p>
+    <footer>Contact us at <a href="mailto:hacker@gurdium.com" style="color:red;">hacker@gurdium.com</a></footer>
+</body>
+</html>
