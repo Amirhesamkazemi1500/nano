@@ -1,118 +1,112 @@
-<?php
-// دریافت لینک از فرم
-$error = '';
-$content = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['source_url'])) {
-    $url = filter_var($_POST['source_url'], FILTER_VALIDATE_URL);
-    if ($url) {
-        // دریافت محتوا از لینک با cURL
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        $content = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        if ($httpCode !== 200 || $content === false) {
-            $error = "خطا در دریافت سورس از لینک.";
-            $content = '';
-        }
-    } else {
-        $error = "لینک معتبر نیست.";
-    }
-}
-?>
-
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>اجرای سورس</title>
+    <title>نمایش فایل‌های پوشه فعلی</title>
+    <meta charset="UTF-8">
     <style>
-        /* طراحی کاملاً ساده و ریسپانسیو */
-        html, body {
-            margin: 0; padding: 0; height: 100%;
-            background: #fff;
-            font-family: Tahoma, sans-serif;
+        body {
+            font-family: Tahoma, Arial, sans-serif;
             direction: rtl;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-        .container {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 10px;
-        }
-        form {
-            width: 100%;
-            max-width: 480px;
-            margin: 15px auto;
-            display: flex;
-            flex-direction: column;
-        }
-        input[type="url"] {
-            padding: 12px 15px;
-            font-size: 1.1rem;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 6px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .error {
-            color: #d9534f;
+        h1 {
+            color: #2c3e50;
             text-align: center;
-            margin: 10px 0;
+        }
+        #fileList {
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 800px;
+        }
+        .file-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .file-item:hover {
+            background-color: #f0f8ff;
+        }
+        .folder {
+            color: #2980b9;
             font-weight: bold;
         }
-        iframe {
-            width: 100%;
-            max-width: 480px;
-            height: 80vh;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            margin-top: 20px;
+        .file {
+            color: #34495e;
         }
-        @media (max-width: 600px) {
-            input[type="url"], button {
-                font-size: 1.3rem;
-            }
-            iframe {
-                height: 70vh;
-            }
+        .icon {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+        #status {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <form method="post" action="">
-            <input type="url" name="source_url" placeholder="لینک فایل PHP یا HTML را وارد کنید..." required />
-            <button type="submit">اجرا کن</button>
-        </form>
+    <h1>لیست فایل‌های پوشه فعلی</h1>
+    <div id="status">در حال بارگذاری لیست فایل‌ها...</div>
+    
+    <div id="fileList"></div>
 
-        <?php if ($error): ?>
-            <div class="error"><?=htmlspecialchars($error)?></div>
-        <?php endif; ?>
+    <script>
+        // اینجا می‌توانید از AJAX برای ارتباط با یک سرویس جاوا استفاده کنید
+        // اما برای مثال ساده، یک لیست ثابت نمایش داده می‌شود
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                // در حالت واقعی این اطلاعات از جاوا دریافت می‌شد
+                simulateJavaResponse();
+            }, 1000);
+        });
 
-        <?php if ($content): ?>
-            <!-- اجرای سورس در iframe -->
-            <iframe srcdoc="<?=htmlspecialchars($content)?>" sandbox="allow-scripts allow-same-origin"></iframe>
-        <?php endif; ?>
-    </div>
+        function simulateJavaResponse() {
+            // این فقط یک شبیه‌سازی است
+            // در عمل باید از LiveConnect یا فناوری‌های دیگر استفاده کنید
+            document.getElementById("status").textContent = "";
+            
+            var sampleFiles = [
+                {name: "اسناد", type: "folder"},
+                {name: "تصاویر", type: "folder"},
+                {name: "گزارش.pdf", type: "file"},
+                {name: "داده‌ها.xlsx", type: "file"},
+                {name: "پروژه‌ها", type: "folder"},
+                {name: "README.txt", type: "file"}
+            ];
+            
+            var fileListDiv = document.getElementById("fileList");
+            sampleFiles.forEach(function(item) {
+                var fileItem = document.createElement("div");
+                fileItem.className = "file-item " + item.type;
+                
+                var icon = document.createElement("span");
+                icon.className = "icon";
+                icon.textContent = item.type === "folder" ? "📁" : "📄";
+                
+                var name = document.createElement("span");
+                name.textContent = item.name;
+                
+                fileItem.appendChild(icon);
+                fileItem.appendChild(name);
+                fileListDiv.appendChild(fileItem);
+            });
+        }
+    </script>
+
+    <!-- کد جاوا به صورت اپلت (ممکن است در مرورگرهای جدید کار نکند) -->
+    <applet code="DirectoryLister.class" width="0" height="0" id="javaApplet">
+        <param name="separate_jvm" value="true">
+    </applet>
+    
+    <noscript>
+        <div style="color: red; text-align: center;">
+            جاوااسکریپت در مرورگر شما غیرفعال است. برای عملکرد کامل صفحه لطفاً آن را فعال کنید.
+        </div>
+    </noscript>
 </body>
 </html>
