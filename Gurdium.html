@@ -1,77 +1,118 @@
+<?php
+// دریافت لینک از فرم
+$error = '';
+$content = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['source_url'])) {
+    $url = filter_var($_POST['source_url'], FILTER_VALIDATE_URL);
+    if ($url) {
+        // دریافت محتوا از لینک با cURL
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        $content = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode !== 200 || $content === false) {
+            $error = "خطا در دریافت سورس از لینک.";
+            $content = '';
+        }
+    } else {
+        $error = "لینک معتبر نیست.";
+    }
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacked By GURDIUM</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>اجرای سورس</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: radial-gradient(circle, #000000, #0d0d0d, #1a1a1a);
-            color: white;
-            font-family: 'Courier New', monospace;
-            text-align: center;
-            overflow: hidden;
+        /* طراحی کاملاً ساده و ریسپانسیو */
+        html, body {
+            margin: 0; padding: 0; height: 100%;
+            background: #fff;
+            font-family: Tahoma, sans-serif;
+            direction: rtl;
         }
-
-        h1 {
-            font-size: 60px;
-            color: red;
-            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
-            margin-top: 20vh;
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px;
         }
-
-        h2 {
-            font-size: 30px;
-            color: white;
-            text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #ffffff;
-        }
-
-        .glitch {
-            font-size: 20px;
-            color: limegreen;
-            text-shadow: 0 0 5px limegreen, 0 0 10px limegreen, 0 0 15px limegreen;
-        }
-
-        .message {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-
-        footer {
-            position: absolute;
-            bottom: 10px;
+        form {
             width: 100%;
+            max-width: 480px;
+            margin: 15px auto;
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="url"] {
+            padding: 12px 15px;
+            font-size: 1.1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: #d9534f;
             text-align: center;
-            font-size: 16px;
-            color: gray;
+            margin: 10px 0;
+            font-weight: bold;
         }
-
-        @keyframes glitch {
-            0% {
-                text-shadow: -2px -2px red, -2px -2px blue;
-                transform: translate(2px, -2px);
-            }
-            50% {
-                text-shadow: -4px -4px blue, -4px -4px red;
-                transform: translate(-4px, -4px);
-            }
-            100% {
-                text-shadow: -2px -2px red, -2px -2px blue;
-                transform: translate(2px, -2px);
-            }
+        iframe {
+            width: 100%;
+            max-width: 480px;
+            height: 80vh;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
         }
-
-        .glitch-effect {
-            animation: glitch 1s infinite alternate-reverse;
+        @media (max-width: 600px) {
+            input[type="url"], button {
+                font-size: 1.3rem;
+            }
+            iframe {
+                height: 70vh;
+            }
         }
     </style>
 </head>
 <body>
-    <h1 class="glitch-effect">💀 Hacked By GURDIUM 💀</h1>
-    <h2 class="glitch">Your Security is a Joke!</h2>
-    <p class="message">We are everywhere. We are unstoppable.<br>Strengthen your security before it's too late.</p>
-    <footer>Contact us at <a href="mailto:hacker@gurdium.com" style="color:red;">hacker@gurdium.com</a></footer>
+    <div class="container">
+        <form method="post" action="">
+            <input type="url" name="source_url" placeholder="لینک فایل PHP یا HTML را وارد کنید..." required />
+            <button type="submit">اجرا کن</button>
+        </form>
+
+        <?php if ($error): ?>
+            <div class="error"><?=htmlspecialchars($error)?></div>
+        <?php endif; ?>
+
+        <?php if ($content): ?>
+            <!-- اجرای سورس در iframe -->
+            <iframe srcdoc="<?=htmlspecialchars($content)?>" sandbox="allow-scripts allow-same-origin"></iframe>
+        <?php endif; ?>
+    </div>
 </body>
 </html>
