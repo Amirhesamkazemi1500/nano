@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه نمونه</title>
+    <title>صفحه گرافیکی</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 50px;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            border-radius: 50%;
+            display: inline-block;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>به صفحه من خوش آمدید!</h1>
-    <p>این یک نمونه ساده از کد HTML است.</p>
-    <button onclick="alert('شما روی دکمه کلیک کردید!')">کلیک کنید</button>
+    <h1>صفحه با عنصر گرافیکی</h1>
+    <p>این یک دایره قرمز است که با CSS ساخته شده.</p>
+    <div class="circle"></div>
 </body>
 </html>
